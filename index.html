@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#0a0a0a"/>
+<meta name="description" content="ردیاب مطالعه شخصی"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0a0a'/%3E%3Ctext y='68' x='50' text-anchor='middle' font-size='62'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E"/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0a0a'/%3E%3Ctext y='68' x='50' text-anchor='middle' font-size='62'%3E%F0%9F%8E%93%3C/text%3E%3C/svg%3E"/>
+<title>Study Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0a0a0a;
+  --bg2: #141414;
+  --bg3: #1c1c1c;
+  --border: #2a2a2a;
+  --border2: #333;
+  --text: #f0f0f0;
+  --text2: #b0b0b0;
+  --text3: #6b6b6b;
+  --blue: #3b82f6;
+  --green: #4ade80;
+  --yellow: #facc15;
+  --red: #f87171;
+  --orange: #fb923c;
+  --purple: #a78bfa;
+  --r: 14px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  outline: none;
+  transition: all 0.18s;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--blue);
+}
+
+textarea { resize: vertical; min-height: 80px; }
+
+select option { background: var(--bg3); }
+
+/* ===== LAYOUT ===== */
+.app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo span { font-size: 22px; }
+
+.header-actions { display: flex; gap: 8px; }
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--bg3);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: none;
+  color: var(--text3);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.tab-btn.active {
+  background: var(--bg2);
+  color: var(--text);
+  border: 1px solid var(--border2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.card-meta {
+  font-size: 12.5px;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.chevron {
+  font-size: 12px;
+  color: var(--text3);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.chevron.open { transform: rotate(180deg); }
+
+/* ===== GRADE BADGES ===== */
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar {
+  height: 5px;
+  background: var(--bg3);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+}
+
+.btn-primary:hover { background: #2563eb; }
+
+.btn-ghost {
+  background: var(--bg3);
+  color: var(--text2);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover { border-color: var(--blue); color: var(--text); }
+
+.btn-danger {
+  background: rgba(248,113,113,0.12);
+  color: var(--red);
+  border: 1px solid rgba(248,113,113,0.3);
+}
+
+.btn-danger:hover { background: rgba(248,113,113,0.22); }
+
+.btn-sm {
+  padding: 6px 11px;
+  font-size: 12.5px;
+  border-radius: 8px;
+}
+
+.btn-icon {
+  background: none;
+  color: var(--text3);
+  padding: 6px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.btn-icon:hover { background: var(--bg3); color: var(--text); }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 24px 24px 0 0;
+  padding: 24px 20px 32px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(60px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-group { margin-bottom: 14px; }
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row > * { flex: 1; }
+
+/* ===== FLASH ===== */
+.flash {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 14px;
+  z-index: 999;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  animation: fadeInOut 2.5s ease forwards;
+  white-space: nowrap;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+}
+
+/* ===== GRADE BUTTONS ===== */
+.grade-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.grade-btn {
+  flex: 1;
+  min-width: 80px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border: 2px solid;
+}
+
+/* ===== STATS SECTION ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-num {
+  font-size: 28px;
+  font-weight: 700;
+  display: block;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+/* ===== REVIEW SECTION ===== */
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.review-count {
+  font-size: 13px;
+  color: var(--text3);
+}
+
+/* ===== SUBTOPIC ITEM ===== */
+.subtopic-item {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--bg3);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subtopic-name {
+  flex: 1;
+  font-size: 14px;
+}
+
+/* ===== TREND CHART ===== */
+.trend-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 36px;
+  margin-top: 10px;
+}
+
+.trend-bar {
+  flex: 1;
+  border-radius: 3px;
+  min-height: 4px;
+  transition: height 0.3s;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text3);
+}
+
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-text { font-size: 15px; }
+
+/* ===== SECTION HEADER ===== */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ===== CHAPTER ===== */
+.chapter-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.chapter-header {
+  padding: 12px 16px;
+  background: var(--bg2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.chapter-body {
+  padding: 10px 12px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+/* ===== DUE BADGE ===== */
+.due-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(251,146,60,0.15);
+  color: var(--orange);
+  border: 1px solid rgba(251,146,60,0.3);
+}
+
+.overdue-badge {
+  background: rgba(248,113,113,0.15);
+  color: var(--red);
+  border-color: rgba(248,113,113,0.3);
+}
+
+/* ===== FOCUS MODE ===== */
+#focus-mode {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 300;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.focus-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg2);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.focus-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 80px;
+  overflow-y: auto;
+}
+
+.focus-card {
+  width: 100%;
+  max-width: 600px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 28px 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+
+.focus-breadcrumb {
+  font-size: 12.5px;
+  color: var(--text3);
+  margin-bottom: 10px;
+}
+
+.focus-title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.focus-grade-area {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.focus-grade-btn {
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 14px;
+  min-width: 100px;
+  flex: 1;
+  border: 2.5px solid;
+  transition: all 0.15s;
+}
+
+.focus-grade-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.focus-progress {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  padding: 7px 18px;
+  border-radius: 30px;
+  font-size: 13px;
+  color: var(--text3);
+  z-index: 301;
+}
+
+.focus-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--blue);
+  z-index: 302;
+  transition: width 0.3s ease;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 10px; }
+
+/* ===== RESPONSIVE ===== */
+@media (min-width: 600px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  .focus-grade-btn { min-width: 120px; flex: unset; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="logo"><span>🎓</span> Study Tracker</div>
+    <div class="header-actions">
+      <button class="btn btn-ghost btn-sm" onclick="exportData()">📤</button>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('import-file').click()">📥</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"/>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-review" onclick="switchTab('review')">🔔 مرور امروز</button>
+    <button class="tab-btn" id="tab-courses" onclick="switchTab('courses')">📚 دروس</button>
+    <button class="tab-btn" id="tab-stats" onclick="switchTab('stats')">📊 آمار</button>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div id="content"></div>
+
+</div>
+
+<!-- FOCUS MODE -->
+<div id="focus-mode"></div>
+
+<!-- MODALS -->
+<div id="modal-overlay" style="display:none" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<!-- FLASH CONTAINER -->
+<div id="flash-container"></div>
+
+<script>
+// ============================================================
+// DATA STORE
+// ============================================================
+const STORE_KEY = 'study_tracker_v3';
+
+let D = {
+  courses: [],
+  chapters: [],
+  topics: [],
+  subtopics: [],
+  sessions: []
+};
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) D = JSON.parse(raw);
+  } catch(e) {}
+}
+
+function sd() {
+  localStorage.setItem(STORE_KEY, JSON.stringify(D));
+}
+
+loadData();
+
+// ============================================================
+// GRADE CONFIG
+// ============================================================
+const GC = {
+  A: { l: 'عالی ✨', color: '#4ade80', days: 7 },
+  B: { l: 'خوب 👍', color: '#3b82f6', days: 4 },
+  C: { l: 'متوسط 😐', color: '#facc15', days: 2 },
+  D: { l: 'ضعیف ⚠️', color: '#fb923c', days: 1 },
+  F: { l: 'نمی‌دانم 🔴', color: '#f87171', days: 0 }
+};
+
+const GRADE_COLORS = {
+  A: '#4ade80', B: '#3b82f6', C: '#facc15', D: '#fb923c', F: '#f87171'
+};
+
+// ============================================================
+// UTILS
+// ============================================================
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+
+function today() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function nowISO() {
+  return new Date().toISOString();
+}
+
+function addDays(dateStr, days) {
+  const d = new Date(dateStr);
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+function diffDays(dateStr) {
+  const diff = new Date(dateStr) - new Date(today());
+  return Math.ceil(diff / 86400000);
+}
+
+function toFa(n) {
+  return String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+}
+
+function getCrs(topic) {
+  const ch = D.chapters.find(c => c.id === topic.chapterId);
+  if (!ch) return null;
+  return D.courses.find(c => c.id === ch.courseId);
+}
+
+function getCh(topic) {
+  return D.chapters.find(c => c.id === topic.chapterId);
+}
+
+// ============================================================
+// REVIEW ITEMS
+// ============================================================
+function reviewableItems() {
+  const td = today();
+  const items = [];
+
+  D.topics.forEach(t => {
+    if (!t.nextReview || t.nextReview <= td) {
+      items.push({ type: 'topic', t, s: null });
+    }
+  });
+
+  D.subtopics.forEach(s => {
+    if (!s.nextReview || s.nextReview <= td) {
+      const t = D.topics.find(x => x.id === s.topicId);
+      if (t) items.push({ type: 'sub', t, s });
+    }
+  });
+
+  return items;
+}
+
+// ============================================================
+// TREND CHART
+// ============================================================
+function trendChart(history) {
+  if (!history || history.length === 0) return '';
+  const last = history.slice(-10);
+  const bars = last.map(h => {
+    const pct = { A: 100, B: 80, C: 55, D: 30, F: 10 }[h.grade] || 50;
+    const col = GRADE_COLORS[h.grade] || '#6b6b6b';
+    return `<div class="trend-bar" style="background:${col};height:${pct}%;opacity:0.8" title="${h.grade}"></div>`;
+  }).join('');
+  return `<div class="trend-chart">${bars}</div>`;
+}
+
+// ============================================================
+// CURRENT TAB
+// ============================================================
+let currentTab = 'review';
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  render();
+}
+
+function render() {
+  const c = document.getElementById('content');
+  if (currentTab === 'review') c.innerHTML = renderReview();
+  else if (currentTab === 'courses') c.innerHTML = renderCourses();
+  else if (currentTab === 'stats') c.innerHTML = renderStats();
+}
+
+// ============================================================
+// RENDER: REVIEW
+// ============================================================
+function renderReview() {
+  const pending = reviewableItems();
+  const td = today();
+
+  if (D.topics.length === 0) {
+    return `<div class="empty">
+      <div class="empty-icon">📖</div>
+      <div class="empty-text">هنوز موضوعی اضافه نشده<br><small>از تب «دروس» شروع کن</small></div>
+    </div>`;
+  }
+
+  if (pending.length === 0) {
+    return `<div class="empty">
+      <div class="empty-icon">🎉</div>
+      <div class="empty-text">مرور امروز تمام شد!<br><small>فردا دوباره بیا</small></div>
+    </div>`;
+  }
+
+  let html = `
+    <div class="review-header">
+      <div>
+        <div class="section-title">مرور امروز</div>
+        <div class="review-count">${toFa(pending.length)} موضوع باقی‌مانده</div>
+      </div>
+      <button class="btn btn-primary" onclick="startFocusMode()">
+        🎯 حالت تمرکز
+      </button>
+    </div>
+  `;
+
+  pending.forEach(item => {
+    const entity = item.type === 'sub' ? item.s : item.t;
+    const t = item.t;
+    const c = getCrs(t);
+    const ch = getCh(t);
+    const dif = entity.nextReview ? diffDays(entity.nextReview) : -999;
+    const badgeClass = dif < 0 ? 'overdue-badge' : 'due-badge';
+    const badgeText = dif < 0 ? `${toFa(Math.abs(dif))} روز تأخیر` : 'امروز';
+
+    html += `
+      <div class="card" style="margin-bottom:10px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+          <div style="flex:1">
+            <div style="font-size:13px;color:var(--text3);margin-bottom:4px">
+              ${c?.name || ''} ${ch ? '/ ' + ch.name : ''} ${item.type === 'sub' ? '/ ' + t.name : ''}
+            </div>
+            <div style="font-size:16px;font-weight:600">${entity.name}</div>
+            ${entity.note ? `<div style="margin-top:8px;font-size:13px;color:var(--text2);border-right:3px solid var(--blue);padding-right:8px">${entity.note}</div>` : ''}
+            ${trendChart(entity.history || [])}
+          </div>
+          <span class="due-badge ${badgeClass}">${badgeText}</span>
+        </div>
+        <div class="grade-btns" style="margin-top:14px">
+          ${Object.entries(GC).map(([g, cfg]) => `
+            <button class="grade-btn" onclick="applyGrade('${item.type}','${entity.id}','${g}')"
+              style="background:${cfg.color}15;border-color:${cfg.color};color:${cfg.color}">
+              ${cfg.l}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  return html;
+}
+
+// ============================================================
+// RENDER: COURSES
+// ============================================================
+function renderCourses() {
+  let html = `
+    <div class="section-header">
+      <div class="section-title">دروس من</div>
+      <button class="btn btn-primary btn-sm" onclick="openAddCourse()">+ درس جدید</button>
+    </div>
+  `;
+
+  if (D.courses.length === 0) {
+    return html + `<div class="empty">
+      <div class="empty-icon">📚</div>
+      <div class="empty-text">هنوز درسی اضافه نشده</div>
+    </div>`;
+  }
+
+  D.courses.forEach(course => {
+    const chapters = D.chapters.filter(ch => ch.courseId === course.id);
+    const topics = D.topics.filter(t => chapters.some(ch => ch.id === t.chapterId));
+    const done = topics.filter(t => t.lastGrade).length;
+    const pct = topics.length ? Math.round(done / topics.length * 100) : 0;
+
+    html += `
+      <div class="card">
+        <div class="card-header" onclick="toggleCourse('${course.id}')">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:18px">${course.emoji || '📘'}</span>
+              <div class="card-title">${course.name}</div>
+            </div>
+            <div class="card-meta">
+              <span>${toFa(chapters.length)} فصل</span>
+              <span>•</span>
+              <span>${toFa(topics.length)} موضوع</span>
+              <span>•</span>
+              <span>${toFa(pct)}٪ مرور شده</span>
+            </div>
+            <div class="progress-bar" style="margin-top:8px">
+              <div class="progress-fill" style="width:${pct}%;background:${course.color || 'var(--blue)'}"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <button class="btn-icon" onclick="event.stopPropagation();openAddChapter('${course.id}')">＋</button>
+            <button class="btn-icon" onclick="event.stopPropagation();deleteCourse('${course.id}')">🗑</button>
+            <span class="chevron ${expandedCourses.has(course.id) ? 'open' : ''}">▼</span>
+          </div>
+        </div>
+
+        ${expandedCourses.has(course.id) ? `
+        <div style="margin-top:12px">
+          ${chapters.length === 0 ? `<div style="text-align:center;padding:16px;color:var(--text3);font-size:13px">هنوز فصلی اضافه نشده</div>` : ''}
+          ${chapters.map(ch => renderChapter(ch)).join('')}
+        </div>
+        ` : ''}
+      </div>
+    `;
+  });
+
+  return html;
+}
+
+const expandedCourses = new Set();
+const expandedChapters = new Set();
+
+function toggleCourse(id) {
+  expandedCourses.has(id) ? expandedCourses.delete(id) : expandedCourses.add(id);
+  render();
+}
+
+function toggleChapter(id) {
+  expandedChapters.has(id) ? expandedChapters.delete(id) : expandedChapters.add(id);
+  render();
+}
+
+function renderChapter(ch) {
+  const topics = D.topics.filter(t => t.chapterId === ch.id);
+  const open = expandedChapters.has(ch.id);
+
+  return `
+    <div class="chapter-item">
+      <div class="chapter-header" onclick="toggleChapter('${ch.id}')">
+        <span style="color:var(--text3);font-size:13px">📂</span>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600">${ch.name}</div>
+          <div style="font-size:12px;color:var(--text3)">${toFa(topics.length)} موضوع</div>
+        </div>
+        <button class="btn-icon btn-sm" onclick="event.stopPropagation();openAddTopic('${ch.id}')">＋</button>
+        <button class="btn-icon btn-sm" onclick="event.stopPropagation();deleteChapter('${ch.id}')">🗑</button>
+        <span class="chevron ${open ? 'open' : ''}">▼</span>
+      </div>
+      ${open ? `
+      <div class="chapter-body">
+        ${topics.length === 0 ? `<div style="text-align:center;padding:12px;color:var(--text3);font-size:13px">هنوز موضوعی اضافه نشده</div>` : ''}
+        ${topics.map(t => renderTopic(t)).join('')}
+        <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:8px;justify-content:center" onclick="openAddTopic('${ch.id}')">
+          + موضوع جدید
+        </button>
+      </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function renderTopic(t) {
+  const subs = D.subtopics.filter(s => s.topicId === t.id);
+  const grade = t.lastGrade;
+  const cfg = grade ? GC[grade] : null;
+  const dif = t.nextReview ? diffDays(t.nextReview) : null;
+
+  return `
+    <div style="padding:10px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:500">${t.name}</div>
+          ${t.note ? `<div style="font-size:12px;color:var(--text3);margin-top:2px">${t.note}</div>` : ''}
+        </div>
+        ${cfg ? `<span class="grade-badge" style="color:${cfg.color};border-color:${cfg.color}">${grade}</span>` : ''}
+        ${dif !== null ? `<span class="due-badge ${dif < 0 ? 'overdue-badge' : ''}" style="font-size:11px">${dif < 0 ? toFa(Math.abs(dif))+'↑' : '+'+toFa(dif)}</span>` : ''}
+        <button class="btn-icon" onclick="openAddSubtopic('${t.id}')">＋</button>
+        <button class="btn-icon" onclick="deleteTopic('${t.id}')">🗑</button>
+      </div>
+      ${subs.length > 0 ? `
+        <div style="margin-top:8px;padding-right:12px">
+          ${subs.map(s => `
+            <div class="subtopic-item">
+              <span style="font-size:12px">◦</span>
+              <span class="subtopic-name">${s.name}</span>
+              ${s.lastGrade ? `<span class="grade-badge" style="color:${GC[s.lastGrade].color};border-color:${GC[s.lastGrade].color};font-size:11px">${s.lastGrade}</span>` : ''}
+              <button class="btn-icon" style="font-size:13px" onclick="deleteSubtopic('${s.id}')">🗑</button>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+// ============================================================
+// RENDER: STATS
+// ============================================================
+function renderStats() {
+  const total = D.topics.length + D.subtopics.length;
+  const reviewed = [...D.topics, ...D.subtopics].filter(x => x.lastGrade).length;
+  const mastered = [...D.topics, ...D.subtopics].filter(x => x.lastGrade === 'A').length;
+  const pending = reviewableItems().length;
+
+  const gradeCount = {};
+  Object.keys(GC).forEach(g => gradeCount[g] = 0);
+  [...D.topics, ...D.subtopics].forEach(x => {
+    if (x.lastGrade) gradeCount[x.lastGrade]++;
+  });
+
+  return `
+    <div class="section-title" style="margin-bottom:16px">آمار مطالعه</div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-num" style="color:var(--blue)">${toFa(total)}</span>
+        <div class="stat-label">کل موضوعات</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" style="color:var(--green)">${toFa(mastered)}</span>
+        <div class="stat-label">تسلط یافته</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" style="color:var(--orange)">${toFa(pending)}</span>
+        <div class="stat-label">نیاز به مرور</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" style="color:var(--purple)">${toFa(D.courses.length)}</span>
+        <div class="stat-label">دروس فعال</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:14px;font-weight:600;margin-bottom:14px">توزیع نمرات</div>
+      ${Object.entries(GC).map(([g, cfg]) => {
+        const cnt = gradeCount[g] || 0;
+        const pct = total ? Math.round(cnt / total * 100) : 0;
+        return `
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <span style="font-size:13px;color:${cfg.color}">${cfg.l}</span>
+              <span style="font-size:13px;color:var(--text3)">${toFa(cnt)} (${toFa(pct)}٪)</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:${pct}%;background:${cfg.color}"></div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div style="font-size:14px;font-weight:600;margin-bottom:14px">وضعیت دروس</div>
+      ${D.courses.length === 0 ? `<div style="color:var(--text3);font-size:13px;text-align:center;padding:12px">هنوز درسی اضافه نشده</div>` : ''}
+      ${D.courses.map(course => {
+        const chapters = D.chapters.filter(ch => ch.courseId === course.id);
+        const topics = D.topics.filter(t => chapters.some(ch => ch.id === t.chapterId));
+        const done = topics.filter(t => t.lastGrade).length;
+        const pct = topics.length ? Math.round(done / topics.length * 100) : 0;
+        return `
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <span>${course.emoji || '📘'} ${course.name}</span>
+              <span style="font-size:13px;color:var(--text3)">${toFa(pct)}٪</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:${pct}%;background:${course.color || 'var(--blue)'}"></div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+// ============================================================
+// GRADE APPLICATION
+// ============================================================
+function applyGrade(type, id, grade) {
+  const cfg = GC[grade];
+  const td = today();
+
+  if (type === 'topic') {
+    D.topics = D.topics.map(t => t.id === id ? {
+      ...t,
+      lastGrade: grade,
+      nextReview: addDays(td, cfg.days),
+      history: [...(t.history || []), { date: td, grade }],
+      updatedAt: nowISO()
+    } : t);
+  } else {
+    D.subtopics = D.subtopics.map(s => s.id === id ? {
+      ...s,
+      lastGrade: grade,
+      nextReview: addDays(td, cfg.days),
+      history: [...(s.history || []), { date: td, grade }],
+      updatedAt: nowISO()
+    } : s);
+  }
+
+  sd();
+  flash(`نمره ${GC[grade].l} ثبت شد ✓`, GC[grade].color);
+  render();
+}
+
+// ============================================================
+// FOCUS MODE
+// ============================================================
+let focusItems = [];
+let focusIndex = 0;
+
+function startFocusMode() {
+  const pending = reviewableItems();
+  if (pending.length === 0) {
+    flash('هیچ موضوعی برای مرور باقی نمانده', 'info');
+    return;
+  }
+  focusItems = [...pending];
+  focusIndex = 0;
+  document.getElementById('focus-mode').style.display = 'flex';
+  renderFocusCard();
+}
+
+function exitFocusMode() {
+  document.getElementById('focus-mode').style.display = 'none';
+  focusItems = [];
+  focusIndex = 0;
+  render();
+}
+
+function renderFocusCard() {
+  if (focusIndex >= focusItems.length) {
+    exitFocusMode();
+    flash('مرور امروز با موفقیت تمام شد! 🎉', '#4ade80');
+    return;
+  }
+
+  const item = focusItems[focusIndex];
+  const isSub = item.type === 'sub';
+  const entity = isSub ? item.s : item.t;
+  const t = item.t;
+
+  const c = getCrs(t);
+  const ch = getCh(t);
+  const breadcrumb = [c?.name, ch?.name, isSub ? t.name : null].filter(Boolean).join(' ← ');
+  const pct = Math.round((focusIndex / focusItems.length) * 100);
+
+  const html = `
+    <div class="focus-progress-bar" style="width:${pct}%"></div>
+
+    <div class="focus-header">
+      <button onclick="exitFocusMode()" style="background:none;border:none;font-size:22px;color:var(--text3);cursor:pointer">✕</button>
+      <div style="color:var(--text2);font-size:14px">
+        ${toFa(focusIndex + 1)} از ${toFa(focusItems.length)}
+      </div>
+      <button onclick="nextFocusItem()" class="btn btn-ghost btn-sm">رد کردن →</button>
+    </div>
+
+    <div class="focus-content">
+      <div class="focus-card">
+        <div class="focus-breadcrumb">${breadcrumb}</div>
+        <div class="focus-title">${entity.name}</div>
+
+        ${entity.history && entity.history.length > 0 ? `
+          <div style="margin-bottom:16px">
+            <div style="font-size:12px;color:var(--text3);margin-bottom:6px">سابقه مرور:</div>
+            ${trendChart(entity.history)}
+          </div>
+        ` : ''}
+
+        ${entity.note ? `
+          <div style="margin:16px 0;padding:14px;background:var(--bg3);border-radius:12px;border-right:4px solid var(--blue)">
+            <div style="color:var(--text3);font-size:12px;margin-bottom:5px">یادداشت:</div>
+            <div style="font-size:14px">${entity.note}</div>
+          </div>
+        ` : ''}
+
+        <div class="focus-grade-area">
+          ${Object.entries(GC).map(([g, cfg]) => `
+            <button class="focus-grade-btn" onclick="applyFocusGrade('${g}')"
+              style="background:${cfg.color}15;border-color:${cfg.color};color:${cfg.color}">
+              ${cfg.l}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="focus-progress">
+      ${toFa(focusIndex + 1)} / ${toFa(focusItems.length)}
+    </div>
+  `;
+
+  document.getElementById('focus-mode').innerHTML = html;
+}
+
+function applyFocusGrade(grade) {
+  const item = focusItems[focusIndex];
+  const cfg = GC[grade];
+  const td = today();
+  const entity = item.type === 'sub' ? item.s : item.t;
+
+  if (item.type === 'topic') {
+    D.topics = D.topics.map(t => t.id === item.t.id ? {
+      ...t,
+      lastGrade: grade,
+      nextReview: addDays(td, cfg.days),
+      history: [...(t.history || []), { date: td, grade }],
+      updatedAt: nowISO()
+    } : t);
+  } else {
+    D.subtopics = D.subtopics.map(s => s.id === item.s.id ? {
+      ...s,
+      lastGrade: grade,
+      nextReview: addDays(td, cfg.days),
+      history: [...(s.history || []), { date: td, grade }],
+      updatedAt: nowISO()
+    } : s);
+  }
+
+  sd();
+  flash(`${GC[grade].l} ✓`, GC[grade].color);
+
+  setTimeout(() => {
+    focusIndex++;
+    renderFocusCard();
+  }, 320);
+}
+
+function nextFocusItem() {
+  focusIndex++;
+  renderFocusCard();
+}
+
+// ============================================================
+// MODALS
+// ============================================================
+function openModal(html) {
+  document.getElementById('modal-content').innerHTML = html;
+  document.getElementById('modal-overlay').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').style.display = 'none';
+}
+
+// ADD COURSE
+function openAddCourse() {
+  openModal(`
+    <div class="modal-title">
+      <span>+ درس جدید</span>
+      <button class="btn-icon" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">نام درس</label>
+      <input id="f-cname" placeholder="مثال: ریاضی عمومی" autofocus/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">ایموجی</label>
+        <input id="f-cemoji" placeholder="📘" maxlength="2"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">رنگ</label>
+        <input type="color" id="f-ccolor" value="#3b82f6" style="height:40px;padding:4px"/>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-primary" style="flex:1" onclick="addCourse()">ذخیره</button>
+      <button class="btn btn-ghost" onclick="closeModal()">لغو</button>
+    </div>
+  `);
+}
+
+function addCourse() {
+  const name = document.getElementById('f-cname').value.trim();
+  if (!name) return flash('نام درس خالی است', '#f87171');
+  D.courses.push({
+    id: uid(),
+    name,
+    emoji: document.getElementById('f-cemoji').value || '📘',
+    color: document.getElementById('f-ccolor').value,
+    createdAt: nowISO()
+  });
+  sd();
+  closeModal();
+  render();
+  flash('درس اضافه شد ✓', '#4ade80');
+}
+
+// ADD CHAPTER
+function openAddChapter(courseId) {
+  openModal(`
+    <div class="modal-title">
+      <span>+ فصل جدید</span>
+      <button class="btn-icon" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">نام فصل</label>
+      <input id="f-chname" placeholder="مثال: فصل اول - حدود" autofocus/>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-primary" style="flex:1" onclick="addChapter('${courseId}')">ذخیره</button>
+      <button class="btn btn-ghost" onclick="closeModal()">لغو</button>
+    </div>
+  `);
+}
+
+function addChapter(courseId) {
+  const name = document.getElementById('f-chname').value.trim();
+  if (!name) return flash('نام فصل خالی است', '#f87171');
+  D.chapters.push({ id: uid(), courseId, name, createdAt: nowISO() });
+  expandedCourses.add(courseId);
+  sd();
+  closeModal();
+  render();
+  flash('فصل اضافه شد ✓', '#4ade80');
+}
+
+// ADD TOPIC
+function openAddTopic(chapterId) {
+  openModal(`
+    <div class="modal-title">
+      <span>+ موضوع جدید</span>
+      <button class="btn-icon" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">نام موضوع</label>
+      <input id="f-tname" placeholder="مثال: مشتق توابع مثلثاتی" autofocus/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">یادداشت (اختیاری)</label>
+      <textarea id="f-tnote" placeholder="نکات مهم، منابع، ..."></textarea>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-primary" style="flex:1" onclick="addTopic('${chapterId}')">ذخیره</button>
+      <button class="btn btn-ghost" onclick="closeModal()">لغو</button>
+    </div>
+  `);
+}
+
+function addTopic(chapterId) {
+  const name = document.getElementById('f-tname').value.trim();
+  if (!name) return flash('نام موضوع خالی است', '#f87171');
+  D.topics.push({
+    id: uid(),
+    chapterId,
+    name,
+    note: document.getElementById('f-tnote').value.trim(),
+    history: [],
+    createdAt: nowISO()
+  });
+  expandedChapters.add(chapterId);
+  sd();
+  closeModal();
+  render();
+  flash('موضوع اضافه شد ✓', '#4ade80');
+}
+
+// ADD SUBTOPIC
+function openAddSubtopic(topicId) {
+  openModal(`
+    <div class="modal-title">
+      <span>+ زیرموضوع</span>
+      <button class="btn-icon" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">نام زیرموضوع</label>
+      <input id="f-sname" placeholder="مثال: قضیه رول" autofocus/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">یادداشت (اختیاری)</label>
+      <textarea id="f-snote" placeholder="نکات مهم ..."></textarea>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-primary" style="flex:1" onclick="addSubtopic('${topicId}')">ذخیره</button>
+      <button class="btn btn-ghost" onclick="closeModal()">لغو</button>
+    </div>
+  `);
+}
+
+function addSubtopic(topicId) {
+  const name = document.getElementById('f-sname').value.trim();
+  if (!name) return flash('نام زیرموضوع خالی است', '#f87171');
+  D.subtopics.push({
+    id: uid(),
+    topicId,
+    name,
+    note: document.getElementById('f-snote').value.trim(),
+    history: [],
+    createdAt: nowISO()
+  });
+  sd();
+  closeModal();
+  render();
+  flash('زیرموضوع اضافه شد ✓', '#4ade80');
+}
+
+// ============================================================
+// DELETE
+// ============================================================
+function deleteCourse(id) {
+  if (!confirm('این درس و تمام محتوایش حذف شود؟')) return;
+  const chs = D.chapters.filter(c => c.courseId === id).map(c => c.id);
+  D.topics = D.topics.filter(t => !chs.includes(t.chapterId));
+  D.chapters = D.chapters.filter(c => c.courseId !== id);
+  D.courses = D.courses.filter(c => c.id !== id);
+  sd(); render();
+  flash('درس حذف شد', '#f87171');
+}
+
+function deleteChapter(id) {
+  if (!confirm('این فصل و تمام موضوعاتش حذف شود؟')) return;
+  const tids = D.topics.filter(t => t.chapterId === id).map(t => t.id);
+  D.subtopics = D.subtopics.filter(s => !tids.includes(s.topicId));
+  D.topics = D.topics.filter(t => t.chapterId !== id);
+  D.chapters = D.chapters.filter(c => c.id !== id);
+  sd(); render();
+  flash('فصل حذف شد', '#f87171');
+}
+
+function deleteTopic(id) {
+  if (!confirm('این موضوع حذف شود؟')) return;
+  D.subtopics = D.subtopics.filter(s => s.topicId !== id);
+  D.topics = D.topics.filter(t => t.id !== id);
+  sd(); render();
+  flash('موضوع حذف شد', '#f87171');
+}
+
+function deleteSubtopic(id) {
+  D.subtopics = D.subtopics.filter(s => s.id !== id);
+  sd(); render();
+  flash('زیرموضوع حذف شد', '#f87171');
+}
+
+// ============================================================
+// IMPORT / EXPORT
+// ============================================================
+function exportData() {
+  const blob = new Blob([JSON.stringify(D, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `study-tracker-${today()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  flash('داده‌ها خروجی گرفته شد ✓', '#4ade80');
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data.courses && data.chapters && data.topics) {
+        D = data;
+        sd();
+        render();
+        flash('داده‌ها با موفقیت وارد شد ✓', '#4ade80');
+      } else {
+        flash('فایل نامعتبر است', '#f87171');
+      }
+    } catch {
+      flash('خطا در خواندن فایل', '#f87171');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// ============================================================
+// FLASH
+// ============================================================
+function flash(msg, color) {
+  const el = document.createElement('div');
+  el.className = 'flash';
+  el.textContent = msg;
+  if (color && color !== 'info') el.style.borderColor = color + '55';
+  document.getElementById('flash-container').appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+// ============================================================
+// KEYBOARD
+// ============================================================
+document.addEventListener('keydown', e => {
+  if (document.getElementById('focus-mode').style.display === 'flex') {
+    const map = { '1': 'A', '2': 'B', '3': 'C', '4': 'D', '5': 'F', 'Escape': null };
+    if (e.key === 'Escape') { exitFocusMode(); return; }
+    if (e.key === 'ArrowRight' || e.key === 'n') { nextFocusItem(); return; }
+    if (map[e.key]) applyFocusGrade(map[e.key]);
+  }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+render();
+</script>
+</body>
+</html>
